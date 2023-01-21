@@ -36,6 +36,11 @@
                         <a class="btn btn-primary btn-sm me-3 py-2" href="#">로그인</a>
                         <a class="btn btn-outline-primary btn-sm me-3 py-2" href="#">가입하기</a>
                     </nav>
+                    {% if user.is_authenticated %}
+                    <div>
+                        {{ user }} 님
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
