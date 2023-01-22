@@ -33,13 +33,21 @@
                         <span class="mx-3 fs-4"> Clone</span>
                     </a>
                     <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-                        <a class="btn btn-primary btn-sm me-3 py-2" href="#">로그인</a>
-                        <a class="btn btn-outline-primary btn-sm me-3 py-2" href="#">가입하기</a>
+                        <a class="btn btn-primary btn-sm me-3 py-2" href="{% url 'login' %}">로그인</a>
+                        <a class="btn btn-outline-primary btn-sm me-3 py-2" href="{% url 'signup' %}">가입하기</a>
                     </nav>
                     {% if user.is_authenticated %}
-                    <div>
-                        {{ user }} 님
-                    </div>
+                        <a class="p-2 text-dark" href="{% url 'profile_edit' %}">
+                            {% if user.profile %}
+                                <img src="{{ user.profile.url }}" style="width: 24px; height: 24px;">
+                            {% else %}
+                                <img src="https://avatars.dicebear.com/api/identicon/{{ user }}.svg"
+                                     style="width: 24px; height: 24px;">
+                            {% endif %}
+                        </a>
+                        <div>
+                            {{ user }} 님
+                        </div>
                     {% endif %}
                 </div>
             </div>
