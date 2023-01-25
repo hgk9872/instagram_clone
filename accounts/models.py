@@ -16,6 +16,17 @@ class User(AbstractUser):
     gender = models.CharField(max_length=1, blank=True, choices=Gender.choices)
     profile = models.ImageField(blank=True, upload_to="accounts/profile/%Y/%m/%d", help_text="48px * 48px 이하의 jpg/png 이미지를 업로드해주세요")
 
+    @property
+    def name(self):
+        return f"{self.first_name} {self.last_name}"
+
+    @property
+    def profile_url(self):
+        if self.profile:
+            return self.profile.url
+        else:
+            return f"https://avatars.dicebear.com/api/identicon/{self.username}.svg"
+
     def send_welcome_email(self):
         subject = render_to_string("accounts/welcome_email_subject.txt", {"user": self, })
         message = render_to_string("accounts/welcome_email_message.txt", {"user": self, })

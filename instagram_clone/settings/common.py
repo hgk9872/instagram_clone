@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     # Locals Apps
     'accounts',
+    'instagram',
 ]
 
 MIDDLEWARE = [
