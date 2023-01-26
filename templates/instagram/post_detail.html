@@ -6,12 +6,12 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <img src="{{ post.author.profile_url }}" style="width: 24px; height: 32px;" >
+                        <img src="{{ post.author.profile_url }}" class="rounded-circle" style="width: 24px; height: 32px;" alt="유저 프로필 사진">
                         {{ post.author.name }}
                     </div>
                     <div class="card-body">
                         <p>
-                            <img src="{{ post.photo.url }}" style="width: 25%">
+                            <img src="{{ post.photo.url }}" style="width: 25%" alt="포스팅 사진">
                         </p>
                         {{ post.caption }}
                     </div>

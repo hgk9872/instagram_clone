@@ -39,10 +39,10 @@
                     {% if user.is_authenticated %}
                         <a class="p-2 text-dark" href="{% url 'profile_edit' %}">
                             {% if user.profile %}
-                                <img src="{{ user.profile.url }}" style="width: 24px; height: 32px;">
+                                <img src="{{ user.profile.url }}" class="rounded-circle" style="width: 24px; height: 32px;" alt="유저 프로필 사진">
                             {% else %}
                                 <img src="https://avatars.dicebear.com/api/identicon/{{ user }}.svg"
-                                     style="width: 24px; height: 24px;">
+                                     style="width: 24px; height: 24px;" alt="기본 프로필 사진">
                             {% endif %}
                         </a>
                         <div>
