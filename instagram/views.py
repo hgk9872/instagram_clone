@@ -35,7 +35,6 @@ def post_detail(request, pk):
 def user_page(request, username):
     page_user = get_object_or_404(get_user_model(), username=username) # 해당 모델에 username 키워드 인자로 GET 요청
     post_list = Post.objects.filter(author=page_user)
-    # post_list_count = post_list.count()
     return render(request, "instagram/user_detail.html", {
         'page_user': page_user,
         'post_list': post_list,
