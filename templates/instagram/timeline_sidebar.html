@@ -1,0 +1,29 @@
+<div class="d-flex p-2">
+    <div class="me-3">
+        <img src="{{ user.profile_url }}" class="rounded-circle" style="width: 48px; height: 48px;" alt="프로필 사진">
+    </div>
+    <div>
+        <a href="{% url 'instagram:user_page' user.username %}" class="fw-bold">
+            {{ user.username }}
+        </a><br/>
+        <p class="text-muted">{{ user.name }}</p>
+    </div>
+</div>
+
+<div class="card mb-2">
+    <div class="card-header text-muted">
+        Stories
+    </div>
+    <div class="card-body">
+        친구들의 스토리 목록
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header text-muted">
+        친구 추천
+    </div>
+    <div class="card-body">
+        {% include "instagram/timeline_sidebar_user_follow.html" %}
+    </div>
+</div>

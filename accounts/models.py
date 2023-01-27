@@ -11,6 +11,11 @@ class User(AbstractUser):
         MALE = "M", "남자"
         FEMALE = "F", "여자"
 
+    follower_set = models.ManyToManyField(
+        "self", blank=True, symmetrical=False,
+        related_name="following_set",
+    )
+
     website_url = models.URLField(blank=True)
     phone_number = models.CharField(max_length=13, blank=True, validators=[RegexValidator(r"^010-?[1-9]\d{3}-?\d{4}$")])
     gender = models.CharField(max_length=1, blank=True, choices=Gender.choices)

@@ -6,6 +6,12 @@ from .forms import PostForm
 from .models import Tag, Post
 
 
+def index(request):
+    suggested_user_list = get_user_model().objects.all().exclude(pk=request.user.pk)
+    return render(request, "instagram/index.html", {
+        'suggested_user_list': suggested_user_list,
+    })
+
 @login_required
 def post_new(request):
     if request.method == 'POST':

@@ -59,3 +59,13 @@ class CustomPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
 
 
 password_change = CustomPasswordChangeView.as_view()
+
+
+@login_required
+def user_follow(request, username):
+    pass
+
+
+@login_required
+def user_unfollow(request, username):
+    pass
