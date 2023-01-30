@@ -18,6 +18,8 @@ class Post(BaseModel):
     caption = models.CharField(max_length=500)
     tag_set = models.ManyToManyField('Tag', blank=True)
     location = models.CharField(max_length=100)
+    like_user_set = models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                           related_name='like_post_set', blank=True)
 
     def __str__(self):
         return self.caption
@@ -32,6 +34,9 @@ class Post(BaseModel):
 
     def get_absolute_url(self):
         return reverse('instagram:post_detail', kwargs={'pk': self.pk})
+
+    class Meta:
+        ordering = ['-id']
 
 
 class Tag(models.Model):

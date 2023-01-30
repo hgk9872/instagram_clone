@@ -7,17 +7,25 @@
         </a>
     </div>
     <div class="card-body">
-        <p>
-            <img src="{{ post.photo.url }}" style="width: 25%" alt="포스팅 사진">
-        </p>
-        {{ post.caption }}
-    </div>
-    <div class="card-footer">
-        태그
+        <p><img src="{{ post.photo.url }}" style="width: 25%" alt="포스팅 사진"></p>
+        {{ post.caption }} <br/><br/>
+
         {% for tag in post.tag_set.all %}
             <span class="badge text-bg-secondary">
                 #{{ tag.name }}
             </span>
         {% endfor %}
+    </div>
+    <div class="card-footer">
+        {% load instagram_tags %}
+        {% if post|is_like_user:user %}
+            <a href="{% url 'instagram:post_unlike' post.pk %}">
+                <i class="fa fa-heart" aria-hidden="true" style="color: #dc3545"></i>
+            </a>
+        {% else %}
+            <a href="{% url 'instagram:post_like' post.pk %}">
+                <i class="fa fa-heart-o" aria-hidden="true" style="color: black"></i>
+            </a>
+        {% endif %}
     </div>
 </div>
