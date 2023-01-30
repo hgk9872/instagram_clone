@@ -1,3 +1,5 @@
+from datetime import timedelta
+from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -8,11 +10,13 @@ from .models import Tag, Post
 
 
 def index(request):
-    post_list = Post.objects.all() \
+    timesince = timezone.now() - timedelta(days=3)
+    post_list = Post.objects.all().order_by('-created_at') \
         .filter(
         Q(author=request.user) |
         Q(author__in=request.user.following_set.all())
-    )
+    )\
+        .filter(created_at__gte=timesince)
 
     suggested_user_list = get_user_model().objects.all() \
         .exclude(pk=request.user.pk) \
