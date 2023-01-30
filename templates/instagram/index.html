@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="container">
-        <div class="row">
+        <div class="row mb-2">
             <div class="col-sm-12">
                 <a href="{% url 'instagram:post_new' %}" class="btn btn-primary">새 포스팅 쓰기</a>
             </div>
@@ -10,8 +10,11 @@
         <div class="row">
             <!-- Timeline 영역 -->
             <div class="col-sm-8">
-                Timeline
-                {{ user.following_set.all }}
+                {% for post in post_list %}
+                    <div class="mb-3">
+                        {% include "instagram/_post_card.html" %}
+                    </div>
+                {% endfor %}
             </div>
             <!-- Sidebar 영역 -->
             <div class="col-sm-4">

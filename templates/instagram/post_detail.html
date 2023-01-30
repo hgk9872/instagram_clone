@@ -4,27 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header">
-                        <img src="{{ post.author.profile_url }}" class="rounded-circle" style="width: 24px; height: 32px;" alt="유저 프로필 사진">
-                        {{ post.author.name }}
-                    </div>
-                    <div class="card-body">
-                        <p>
-                            <img src="{{ post.photo.url }}" style="width: 25%" alt="포스팅 사진">
-                        </p>
-                        {{ post.caption }}
-                    </div>
-                    <div class="card-footer">
-                        태그
-                        {% for tag in post.tag_set.all %}
-                            <span class="badge text-bg-secondary">
-                            #{{ tag.name }}
-                            </span>
-                        {% endfor %}
-                    </div>
-                    <hr/>
-                </div>
+                {% include "instagram/_post_card.html" %}
             </div>
         </div>
     </div>
