@@ -1,11 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.views import LoginView, logout_then_login, PasswordChangeView
 from django.contrib.auth import login as auth_login
 from django.urls import reverse_lazy
 from .forms import SignupForm, ProfileForm, CustomPasswordChangeForm
+from .models import User
 
 
 def logout(request):
@@ -63,9 +64,17 @@ password_change = CustomPasswordChangeView.as_view()
 
 @login_required
 def user_follow(request, username):
-    pass
+    follow_user = get_object_or_404(User, username=username)
+    request.user.following_set.add(follow_user) # 요청보낸 사람이 username 유저를 팔로우
+    messages.success(request, f"{follow_user}님을 팔로우했습니다")
+    redirect_url = request.META.get("HTTP_REFERER", "root")
+    return redirect(redirect_url)
 
 
 @login_required
 def user_unfollow(request, username):
-    pass
+    unfollow_user = get_object_or_404(User, username=username)
+    request.user.following_set.remove(unfollow_user)
+    messages.success(request, f"{unfollow_user}님을 언팔로우했습니다")
+    redirect_url = request.META.get("HTTP_REFERER", "root")
+    return redirect(redirect_url)

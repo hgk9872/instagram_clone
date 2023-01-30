@@ -7,10 +7,13 @@ from .models import Tag, Post
 
 
 def index(request):
-    suggested_user_list = get_user_model().objects.all().exclude(pk=request.user.pk)
+    suggested_user_list = get_user_model().objects.all()\
+        .exclude(pk=request.user.pk)\
+        .exclude(pk__in=request.user.following_set.all()) # 현재 following한 사람들은 보여주지 않음
     return render(request, "instagram/index.html", {
-        'suggested_user_list': suggested_user_list,
+        'suggested_user_list': suggested_user_list[:5], # 추천친구 5명까지만
     })
+
 
 @login_required
 def post_new(request):
