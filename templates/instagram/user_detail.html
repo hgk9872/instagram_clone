@@ -11,6 +11,13 @@
             <p>
                 {{ page_user.username }}
                 <a href="{% url 'profile_edit' %}" class="btn btn-group btn-sm">프로필 수정</a>
+
+                {% if is_follow %}
+                    <a href="{% url 'user_unfollow' page_user.username %}">Unfollow</a>
+                {% else %}
+                    <a href="{% url 'user_follow' page_user.username %}">Follow</a>
+                {% endif %}
+
             </p>
             <p>{{ post_list.count }} posts, followers, following</p>
             {{ page_user.name }}

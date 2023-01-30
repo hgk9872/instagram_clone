@@ -8,15 +8,17 @@
             </div>
         </div>
         <div class="row">
-            <!-- Timeline 영역 -->
+            <!-- Timeline(포스팅 목록) 영역 -->
             <div class="col-sm-8">
                 {% for post in post_list %}
                     <div class="mb-3">
                         {% include "instagram/_post_card.html" %}
                     </div>
+                {% empty %}
+                    보여줄 포스팅이 없습니다
                 {% endfor %}
             </div>
-            <!-- Sidebar 영역 -->
+            <!-- Sidebar 영역(스토리 및 친구추천) -->
             <div class="col-sm-4">
                 {% include "instagram/timeline_sidebar.html" %}
             </div>

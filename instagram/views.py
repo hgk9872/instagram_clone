@@ -8,18 +8,18 @@ from .models import Tag, Post
 
 
 def index(request):
-    post_list = Post.objects.all()\
+    post_list = Post.objects.all() \
         .filter(
         Q(author=request.user) |
         Q(author__in=request.user.following_set.all())
     )
 
-    suggested_user_list = get_user_model().objects.all()\
-        .exclude(pk=request.user.pk)\
-        .exclude(pk__in=request.user.following_set.all()) # 현재 following한 사람들은 보여주지 않음
+    suggested_user_list = get_user_model().objects.all() \
+        .exclude(pk=request.user.pk) \
+        .exclude(pk__in=request.user.following_set.all())  # 현재 following한 사람들은 보여주지 않음
     return render(request, "instagram/index.html", {
         'post_list': post_list,
-        'suggested_user_list': suggested_user_list[:5], # 추천친구 5명까지만
+        'suggested_user_list': suggested_user_list[:5],  # 추천친구 5명까지만
     })
 
 
@@ -50,9 +50,17 @@ def post_detail(request, pk):
 
 
 def user_page(request, username):
-    page_user = get_object_or_404(get_user_model(), username=username) # 해당 모델에 username 키워드 인자로 GET 요청
+    page_user = get_object_or_404(get_user_model(), username=username)  # 해당 모델에 username 키워드 인자로 GET 요청
     post_list = Post.objects.filter(author=page_user)
+
+    # 해당 유저가 follow 되어있는지 확인하는 변수
+    if request.user.is_authenticated:
+        is_follow = request.user.following_set.filter(pk=page_user.pk).exists()
+    else:
+        is_follow = False
+
     return render(request, "instagram/user_detail.html", {
         'page_user': page_user,
         'post_list': post_list,
+        'is_follow': is_follow,
     })

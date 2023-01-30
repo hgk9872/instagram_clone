@@ -3,7 +3,9 @@
         <img src="{{ suggested_user.profile_url }}" class="rounded-circle" style="height: 32px; width: 32px">
     </div>
     <div class="p-1">
-        {{ suggested_user.username }}
+        <a href="{% url 'instagram:user_page' suggested_user.username %}">
+            {{ suggested_user.username }}
+        </a>
     </div>
     <div class="ms-auto p-1">
         <a href="{% url "user_follow" suggested_user.username %}">Follow</a>
