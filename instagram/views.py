@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
-from .forms import PostForm
+from .forms import PostForm, CommentForm
 from .models import Tag, Post
 
 
@@ -17,6 +17,7 @@ def index(request):
         Q(author__in=request.user.following_set.all())
     )\
         .filter(created_at__gte=timesince)
+    comment_form = CommentForm()
 
     suggested_user_list = get_user_model().objects.all() \
         .exclude(pk=request.user.pk) \
@@ -24,6 +25,7 @@ def index(request):
     return render(request, "instagram/index.html", {
         'post_list': post_list,
         'suggested_user_list': suggested_user_list[:5],  # 추천친구 5명까지만
+        'comment_form': comment_form,
     })
 
 
@@ -48,8 +50,10 @@ def post_new(request):
 @login_required
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
+    comment_form = CommentForm()
     return render(request, "instagram/post_detail.html", {
         'post': post,
+        'comment_form': comment_form,
     })
 
 
@@ -84,3 +88,21 @@ def post_unlike(request, pk):
     post.like_user_set.remove(request.user)
     redirect_url = request.META.get("HTTP_REFERER", "root")
     return redirect(redirect_url)
+
+
+def comment_new(request, post_pk):
+    post = get_object_or_404(Post, pk=post_pk)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)  # instance 생성
+            comment.author = request.user
+            comment.post = post
+            comment.save()
+            return redirect(comment.post)
+    else:
+        form = CommentForm()
+
+    return render(request, 'instagram/comment_form.html', {
+        'form': form,
+    })
